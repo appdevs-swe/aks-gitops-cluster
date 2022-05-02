@@ -3,9 +3,14 @@
 FROM mcr.microsoft.com/vscode/devcontainers/universal:1-focal
 
 # ** [Optional] Uncomment this section to install additional packages. **
-# USER root
+USER root
 #
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
-#
-# USER codespace
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+     && apt-get -y install --no-install-recommends
+
+RUN curl -s https://fluxcd.io/install.sh | sudo bash
+RUN curl -L https://github.com/openservicemesh/osm/releases/download/v1.1.0/osm-v1.1.0-Linux-amd64.tar.gz | tar -vxzf - | sudo mv ./linux-amd64/osm /usr/local/bin
+
+USER codespace
+
+
