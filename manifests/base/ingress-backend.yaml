@@ -1,0 +1,14 @@
+kind: IngressBackend
+apiVersion: policy.openservicemesh.io/v1alpha1
+metadata:
+  name: webapi
+spec:
+  backends:
+  - name: webapi-primary
+    port:
+      number: 5000
+      protocol: http
+  sources:
+  - kind: Service
+    namespace: ingress-nginx
+    name: ingress-nginx-controller
