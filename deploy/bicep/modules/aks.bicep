@@ -1,7 +1,7 @@
 param name string
 param nodeCount int = 3
 param vmSize string = 'Standard_D4_v3'
-
+param location string
 
 var addonProfiles = {
   // gitops: {
@@ -14,7 +14,7 @@ var addonProfiles = {
 
 resource aks 'Microsoft.ContainerService/managedClusters@2021-05-01' = {
   name: name
-  location: resourceGroup().location
+  location: location
   identity: {
     type: 'SystemAssigned'
   }

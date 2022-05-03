@@ -76,24 +76,19 @@ helm upgrade -i flagger flagger/flagger \
 --set metricsServer=http://osm-prometheus.osm-system.svc:7070
 ```
 
-## Deploy apps via Gitops (flux) 
-
-### Setup a flux config for apps
-
-### Create a CI\CD for github actions
-
+## Setup Ingress controller
 
 ```
-az k8s-configuration flux create \
-    --resource-group bg-gitops-rg \
-    --cluster-name bg-gitops \
-    --cluster-type managedClusters \
-    --scope cluster \
-    --name flagger \
-    --namespace flux-system \
-    --url https://github.com/appdevs-swe/aks-gitops-cluster \
-    --branch main \
-    --kustomization name=kustomize path=./manifests/base/deployments prune=true
+NAMESPACE=ingress-nginx
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+  --create-namespace \
+  --namespace $NAMESPACE \
+  --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz \
+  --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-dns-label-name"=kpbggitops
 ```
 
 
