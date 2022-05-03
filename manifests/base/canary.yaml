@@ -36,18 +36,44 @@ spec:
     stepWeight: 5
     # OSM Prometheus checks
     metrics:
-    - name: request-success-rate
-      # minimum req success rate (non 5xx responses)
-      # percentage (0-100)
-      thresholdRange:
-        min: 99
-      interval: 1m
-    - name: request-duration
-      # maximum req duration P99
-      # milliseconds
-      thresholdRange:
-        max: 500
-      interval: 30s
+    - name: "404s percentage"
+      threshold: 3
+      query: |
+        100 - (
+          sum(
+              rate(
+                  osm_request_total{
+                    destination_namespace="test",
+                    destination_kind="Deployment",
+                    destination_name="podinfo",
+                    response_code!="404"
+                  }[1m]
+              )
+          )
+          /
+          sum(
+              rate(
+                  osm_request_total{
+                    destination_namespace="test",
+                    destination_kind="Deployment",
+                    destination_name="podinfo"
+                  }[1m]
+              )
+          ) * 100
+        )
+    # - name: request-success-rate
+    #   # minimum req success rate (non 5xx responses)
+    #   # percentage (0-100)
+    #   thresholdRange:
+    #     min: 99
+    #   interval: 1m
+    # - name: request-duration
+    #   # maximum req duration P99
+    #   # milliseconds
+    #   thresholdRange:
+    #     max: 500
+    #   interval: 30s
+
     # testing (optional)
     webhooks:
       - name: acceptance-test
@@ -57,9 +83,9 @@ spec:
         metadata:
           type: bash
           cmd: "curl -s http://webapi-canary.apps:5000/WeatherForecast"
-      # - name: load-test
-      #   type: rollout
-      #   url: http://flagger-loadtester.apps/
-      #   timeout: 5s
-      #   metadata:
-      #     cmd: "hey -z 2m -q 10 -c 2 http://webapi-canary.apps:5000/WeatherForecast"
+      - name: load-test
+        type: rollout
+        url: http://flagger-loadtester.apps/
+        timeout: 5s
+        metadata:
+          cmd: "hey -z 2m -q 10 -c 2 http://webapi-canary.apps:5000/WeatherForecast"
