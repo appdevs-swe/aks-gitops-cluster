@@ -76,6 +76,15 @@ helm upgrade -i flagger flagger/flagger \
 --set metricsServer=http://osm-prometheus.osm-system.svc:7070
 ```
 
+Setup the load tester
+
+```
+helm upgrade -i flagger-loadtester flagger/loadtester \
+--namespace=apps \
+--set cmd.timeout=1h \
+--set cmd.namespaceRegexp=''
+```
+
 ## Setup Ingress controller
 
 ```
