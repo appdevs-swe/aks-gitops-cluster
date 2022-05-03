@@ -57,9 +57,9 @@ spec:
         metadata:
           type: bash
           cmd: "curl -s http://webapi-canary.apps:5000/WeatherForecast"
-      - name: load-test
-        type: rollout
-        url: http://flagger-loadtester.apps/
-        timeout: 5s
-        metadata:
-          cmd: "hey -z 2m -q 10 -c 2 http://webapi-canary.apps:5000/WeatherForecast"
+      # - name: load-test
+      #   type: rollout
+      #   url: http://flagger-loadtester.apps/
+      #   timeout: 5s
+      #   metadata:
+      #     cmd: "hey -z 2m -q 10 -c 2 http://webapi-canary.apps:5000/WeatherForecast"
