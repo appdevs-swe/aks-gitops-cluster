@@ -61,18 +61,6 @@ spec:
               )
           ) * 100
         )
-    # - name: request-success-rate
-    #   # minimum req success rate (non 5xx responses)
-    #   # percentage (0-100)
-    #   thresholdRange:
-    #     min: 99
-    #   interval: 1m
-    # - name: request-duration
-    #   # maximum req duration P99
-    #   # milliseconds
-    #   thresholdRange:
-    #     max: 500
-    #   interval: 30s
 
     # testing (optional)
     webhooks:
@@ -82,10 +70,10 @@ spec:
         timeout: 30s
         metadata:
           type: bash
-          cmd: "curl -s http://webapi-canary.apps:5000/WeatherForecast"
+          cmd: "curl -s http://webapi-canary.apps:5000/weather/all"
       - name: load-test
         type: rollout
         url: http://flagger-loadtester.apps/
         timeout: 5s
         metadata:
-          cmd: "hey -z 2m -q 10 -c 2 http://webapi-canary.apps:5000/WeatherForecast"
+          cmd: "hey -z 2m -q 10 -c 2 http://webapi-canary.apps:5000/weather/all"
