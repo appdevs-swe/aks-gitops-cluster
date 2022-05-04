@@ -43,9 +43,9 @@ spec:
           sum(
               rate(
                   osm_request_total{
-                    destination_namespace="test",
+                    destination_namespace="apps",
                     destination_kind="Deployment",
-                    destination_name="podinfo",
+                    destination_name="webapi",
                     response_code!="404"
                   }[1m]
               )
@@ -54,9 +54,9 @@ spec:
           sum(
               rate(
                   osm_request_total{
-                    destination_namespace="test",
+                    destination_namespace="apps",
                     destination_kind="Deployment",
-                    destination_name="podinfo"
+                    destination_name="webapi"
                   }[1m]
               )
           ) * 100
