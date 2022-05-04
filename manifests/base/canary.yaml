@@ -28,12 +28,7 @@ spec:
     interval: 30s
     # max number of failed metric checks before rollback
     threshold: 5
-    # max traffic percentage routed to canary
-    # percentage (0-100)
-    maxWeight: 50
-    # canary increment step
-    # percentage (0-100)
-    stepWeight: 5
+    iterations: 10
     # OSM Prometheus checks
     metrics:
     - name: "404s percentage"
