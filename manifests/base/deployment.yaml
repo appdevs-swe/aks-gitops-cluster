@@ -25,7 +25,7 @@ spec:
       serviceAccountName: webapi
       containers:
       - name: webapi
-        image: kostapetan.azurecr.io/bgdemo/webapi:ba28c3bf2588df9517910504f1f346b9c316d457
+        image: kostapetan.azurecr.io/bgdemo/webapi:2b0b17f629934679b3fc62ad437615443b1763e9
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
