@@ -11,6 +11,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: webapi
+            name: webapi-primary
             port:
               number: 5000
